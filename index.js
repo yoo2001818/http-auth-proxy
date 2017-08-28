@@ -7,6 +7,7 @@ const auth = require('http-auth');
 const bodyParser = require('body-parser');
 const randToken = require('rand-token');
 const request = require('request');
+const morgan = require('morgan');
 const app = require('express')();
 
 const configPath = process.env.CONFIG_PATH || './config';
@@ -40,6 +41,7 @@ const authBasic = auth.basic({
 
 const authMiddleware = auth.connect(authBasic);
 
+app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.post('/', authMiddleware, (req, res) => {
